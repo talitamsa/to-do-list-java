@@ -3,7 +3,9 @@ package com.todojava.todolist.controller;
 
 import com.todojava.todolist.model.TodoItem;
 import com.todojava.todolist.repository.TodoRepo;
+import com.todojava.todolist.services.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -16,6 +18,15 @@ public class TodoController {
 
     @Autowired
     private TodoRepo todoRepo;
+
+    @Autowired
+    private TodoService service;
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<TodoItem> findById(@PathVariable Long id) {
+        TodoItem obj = service.findById(id);
+        return ResponseEntity.ok().body(obj);
+    }
 
     @GetMapping
     public List<TodoItem> findAll() {
